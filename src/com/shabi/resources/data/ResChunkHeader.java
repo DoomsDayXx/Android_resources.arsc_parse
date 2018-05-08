@@ -4,14 +4,15 @@ import com.shabi.resources.Utils;
 
 public class ResChunkHeader extends BaseHeader {
 
-    public int mPackageCount;
+    public int mPackageCount, fileSize;
+
     public ResChunkHeader(byte[] data) {
         super(data);
     }
 
     @Override
     protected void parse() {
-        mPackageCount = Utils.byte2Short(Utils.copy(mData, mOffset += 4, 4));
-        System.out.println(mPackageCount);
+        fileSize = Utils.bytes2Int(Utils.copy(mData, 4, 4));
+        mPackageCount = Utils.bytes2Int(Utils.copy(mData, mOffset, 4));
     }
 }
