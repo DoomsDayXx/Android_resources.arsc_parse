@@ -17,7 +17,7 @@ public abstract class BaseHeader {
         mChunkSize = Utils.bytes2Int(Utils.copy(data, mOffset += 2, 4));
         mOffset += 4;
         if (mType == 0x2) {
-            mChunkSize = mOffset;
+            mChunkSize = mOffset+4;
             mData = Utils.copy(data, 0, mOffset + 4);
         } else {
             mData = Utils.copy(data, 0, mChunkSize);
