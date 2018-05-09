@@ -16,6 +16,9 @@ public class GlobalStringChunk extends BaseHeader {
 
     @Override
     protected void parse() {
+        if (mChunkSize != ChunkType.RES_STRING_POOL_TYPE) {
+            return;
+        }
         mStringPool = new ArrayList<>();
         mStrCount = Utils.bytes2Int(Utils.copy(mData, mOffset, 4));
         mStyleCount = Utils.bytes2Int(Utils.copy(mData, mOffset += 4, 4));
@@ -30,12 +33,6 @@ public class GlobalStringChunk extends BaseHeader {
             int size = Utils.copy(mData, ofset, 2)[1] & 0x7f;
             byte[] data = Utils.copy(mData, ofset + 2, size);
             mStringPool.add(new String(data));
-        }
-        mOffset += mStrCount * 4;
-        System.out.println(mOffset);
-        for (int index = 0; index < mStyleCount; index++) {
-            int ofset = Utils.bytes2Int(Utils.copy(mData, mOffset + index * 4, 4)) + mStyleStartOffset;
-           // System.out.println(Integer.toHexString(ofset + 12));
         }
     }
 }
