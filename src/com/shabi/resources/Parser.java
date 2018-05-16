@@ -1,7 +1,7 @@
 package com.shabi.resources;
 
 import com.shabi.resources.data.GlobalStringChunk;
-import com.shabi.resources.data.PackageTypeChunk;
+import com.shabi.resources.data.PackageChunk;
 import com.shabi.resources.data.ResChunkHeader;
 
 public class Parser {
@@ -10,9 +10,7 @@ public class Parser {
         int offset = 0;
         ResChunkHeader resChunkHeader = new ResChunkHeader(bytes);
         GlobalStringChunk globalStringChunk = new GlobalStringChunk(Utils.copy(bytes, offset += resChunkHeader.mChunkSize, bytes.length - offset));
-        PackageTypeChunk packageTypeChunk = new PackageTypeChunk(Utils.copy(bytes, offset += globalStringChunk.mChunkSize, bytes.length - offset));
-
-        System.out.println(Integer.toHexString(packageTypeChunk.mTypeStringsPool + 12 + globalStringChunk.mChunkSize));
+        PackageChunk packageChunk = new PackageChunk(Utils.copy(bytes, offset += globalStringChunk.mChunkSize, bytes.length - offset));
     }
 
 }

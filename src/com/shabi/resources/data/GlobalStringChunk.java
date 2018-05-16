@@ -16,7 +16,7 @@ public class GlobalStringChunk extends BaseHeader {
 
     @Override
     protected void parse() {
-        if (mChunkSize != ChunkType.RES_STRING_POOL_TYPE) {
+        if (mType != ChunkType.RES_STRING_POOL_TYPE) {
             return;
         }
         mStringPool = new ArrayList<>();
