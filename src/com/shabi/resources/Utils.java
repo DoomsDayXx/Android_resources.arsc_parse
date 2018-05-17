@@ -78,7 +78,7 @@ public class Utils {
     }
 
     public static int getChunkType(byte[] data) {
-        return Utils.bytes2Int(Utils.copy(data, 0, 4));
+        return Utils.bytes2Int(Utils.copy(data, 0, 2));
     }
 
 }

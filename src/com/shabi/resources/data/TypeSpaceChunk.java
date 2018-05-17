@@ -2,7 +2,12 @@ package com.shabi.resources.data;
 
 import com.wjdiankong.parseresource.Utils;
 
+import java.util.ArrayList;
+
 public class TypeSpaceChunk extends BaseHeader {
+
+    private int[] spaceArr;
+
     public TypeSpaceChunk(byte[] data) {
         super(data);
     }
@@ -16,9 +21,9 @@ public class TypeSpaceChunk extends BaseHeader {
         int spaceCount = Utils.byte2int(Utils.copyByte(mData, mOffset += 2, 4));
 
         mOffset += 4;
-        System.out.println(spaceCount);
+        spaceArr = new int[spaceCount];
         for (int index = 0; index < spaceCount; index++) {
-            //System.out.println(Integer.toHexString(Utils.byte2int(Utils.copyByte(mData, mOffset + index * 4, 4))));
+            spaceArr[index] = Utils.byte2int(Utils.copyByte(mData, mOffset + index * 4, 4));
         }
     }
 }

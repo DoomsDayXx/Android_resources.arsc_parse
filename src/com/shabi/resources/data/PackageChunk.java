@@ -2,6 +2,7 @@ package com.shabi.resources.data;
 
 import com.shabi.resources.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PackageChunk extends BaseHeader {
@@ -14,6 +15,7 @@ public class PackageChunk extends BaseHeader {
     public int mKeyStringsPoolOffset;
     public int mLastPublicKey;
     public List<String> mTypeStringPool, mKeyStringPool;
+    private ArrayList<TypeSpaceChunk> typeSpaceChunks;
 
     public PackageChunk(byte[] data) {
         super(data);
@@ -37,6 +39,17 @@ public class PackageChunk extends BaseHeader {
         mKeyStringPool = keyStrChunk.mStringPool;
 
         mOffset = mKeyStringsPoolOffset + keyStrChunk.mChunkSize;
-        new TypeSpaceChunk(Utils.copy(mData, mOffset, mData.length - mOffset));
+        typeSpaceChunks = new ArrayList<>();
+        while (true) {
+            byte[] data = Utils.copy(mData, mOffset, mData.length - mOffset);
+            if (data==null||data.length<1) break;
+            if (Utils.getChunkType(data)!=ChunkType.RES_TABLE_TYPE_SPEC_TYPE) break;
+            TypeSpaceChunk chunk = new TypeSpaceChunk(Utils.copy(mData, mOffset, mData.length - mOffset));
+            typeSpaceChunks.add(chunk);
+            mOffset += chunk.mChunkSize;
+        }
+
+        new ResTabTypeChunk(Utils.copy(mData, mOffset, mData.length - mOffset));
+
     }
 }
